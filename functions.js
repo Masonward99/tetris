@@ -18,6 +18,9 @@ window.addEventListener('keydown', function (event) {
         case 'ArrowUp':
             game.rotate()
             break
+        case " ":
+            game.hardDrop()
+            break
         default:
             return;
     }

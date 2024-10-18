@@ -10,6 +10,8 @@ import {
 const table = document.getElementById('grid');
 import { Grid } from "./grid.js";
 let lines = document.getElementById('lines')
+let scoreCounter = document.getElementById('score')
+let image = document.getElementById('next-shape')
 
 class Tetris {
     grid
@@ -31,6 +33,7 @@ class Tetris {
     createShape() {
         //creates a random number between 0 and 6
         let randomNum = Math.floor(Math.random() * 7);
+        // let randomNum = 1 
         //creates a shape depending on the number
         switch (randomNum) {
             case 0:
@@ -55,81 +58,95 @@ class Tetris {
                 this.nextShape = new T()
                 break
         }
+        image.src = this.nextShape.image
     }
     addNextShapeToGrid() {
-        for (let i = 0; i < this.NUM_POINTS; i++){
-            if (!this.grid.isPointValid(this.nextShape.points[i][0], this.nextShape.points[i][1])) {
-                // add alert to say player has lost
-                console.log('you have lost')
-                clearInterval(this.intervalId)
-                return;
-            }
+        if(!this.grid.arePointsValid(this.nextShape.points)){
+            // add alert to say player has lost
+            console.log('you have lost')
+            clearInterval(this.intervalId)
+            return;
         }
-        this.grid.addShapeToTable(this.nextShape.points, this.nextShape.color)
+        this.grid.setPoints(this.nextShape.points, this.nextShape.color)
         this.shape = this.nextShape
-        let hardDropPoints = this.grid.hardDrop(this.shape.points)
-        this.shape.setHardDropPoints(hardDropPoints)
         this.createShape()
     }
     
 
     moveHorizontally(d) {
         let points = this.shape.moveShapeHorizontally(d);
-        for (let i = 0; i < this.NUM_POINTS; i++){
-            if (!this.grid.isPointValid(points[i][0], points[i][1])) {
-                return;
-            }
+        if (this.grid.arePointsValid(points)) {
+            this.grid.setPoints(points, this.shape.color)
+            this.shape.setPoints(points)
         }
-        this.grid.removeShapeFromTable(this.shape.points)
-        this.shape.setPoints(points)
-        this.grid.addShapeToTable(this.shape.points, this.shape.color)
-        let oldPoints = this.shape.hardDropPoints
-        let  hardDropPoints= this.grid.hardDrop(this.shape.points, this.shape.color, oldPoints)
-        this.shape.setHardDropPoints(hardDropPoints)
     }
 
     moveVertically() {
         let points = this.shape.moveShapeVertically()
-        for (let i = 0; i < this.NUM_POINTS; i++){
-            //collision occured
-            if (!this.grid.isPointValid(points[i][0], points[i][1])) {
-                this.grid.addToGrid(this.shape.points);
-                let num = this.grid.numLinesFull(this.shape.points)
-                if (num > 0) {
-                    this.lines += num
-                    lines.innerHTML = this.lines;
-                    this.level = Math.floor(this.lines / 10) + 1
-                    clearInterval(this.intervalId)
-                    this.autoDrop()
-                } 
-                this.addNextShapeToGrid();
-                return;
-            }
+        //collision occured
+        if (!this.grid.arePointsValid(points)) {
+            this.grid.addToGrid(this.shape.points);
+            let num = this.grid.numLinesFull(this.shape.points)
+            if (num > 0) {
+                this.calculateScore(num)
+                this.lines += num
+                lines.innerHTML = this.lines;
+                this.level = Math.floor(this.lines / 10) + 1
+                clearInterval(this.intervalId)
+                this.autoDrop()
+            } 
+            this.addNextShapeToGrid();
+            return;
         }
-        this.grid.removeShapeFromTable(this.shape.points);
+        this.score += 1 
+        this.grid.setPoints(points, this.shape.color)
         this.shape.setPoints(points);
-        this.grid.addShapeToTable(this.shape.points, this.shape.color);
-    }
-    rotate() {
-        let points = this.shape.rotate()
-        for (let i = 0; i < this.NUM_POINTS; i++){
-            if (!this.grid.isPointValid(points[i][0], points[i][1])) {
-                return;
-            }
-        }
-        this.grid.removeShapeFromTable(this.shape.points);
-        this.shape.setPoints(points);
-        this.grid.addShapeToTable(this.shape.points, this.shape.color);
-        let oldPoints = this.shape.hardDropPoints;
-        let hardDropPoints = this.grid.hardDrop(
-            this.shape.points,
-            this.shape.color,
-            oldPoints
-        );
-        this.shape.setHardDropPoints(hardDropPoints);
+        scoreCounter.innerHTML = this.score
     }
 
+    rotate() {
+        let points = this.shape.rotate()
+        if (this.grid.arePointsValid(points)) {
+            this.grid.setPoints(points, this.shape.color)
+            this.shape.setPoints(points)
+        }
+    }
+    hardDrop() {
+        //drops the shape to its hardDrop position
+        let points = this.grid.setPointToHardDrop(this.shape.color)
+        let distance = points[0][1] - this.shape.points[0][1]
+        this.score += 2* distance
+        let num = this.grid.numLinesFull(points);
+        if (num > 0) {
+            this.calculateScore(num)
+            this.lines += num;
+            lines.innerHTML = this.lines;
+            this.level = Math.floor(this.lines / 10) + 1;
+            clearInterval(this.intervalId);
+            this.autoDrop();
+        }
+        this.addNextShapeToGrid();
+    }
+    calculateScore(num) {
+        //calculates num of points score when a line is completed
+        switch (num) {
+            case 1:
+                this.score += (40 * this.level)
+                break
+            case 2:
+                this.score += (100 * this.level)
+                break
+            case 3:
+                this.score += (300 * this.level)
+                break
+            case 4:
+                this.score += (1200 * this.level)
+                break
+        }
+    }
     autoDrop() {
+        //drops the block automatically at a set interval.
+        // Interval changes each level
         let timeout;
         switch (this.level) {
             case 1:

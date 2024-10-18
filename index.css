@@ -4,3 +4,17 @@ td {
     background-color: grey;
     color: grey;
 }
+
+.page-container {
+    display: flex;
+}
+.score-section {
+    width: 25%;
+}
+#grid {
+    max-width: 1000px;
+}
+img {
+    height: 100px;
+    width: 100px;
+}
