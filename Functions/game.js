@@ -7,11 +7,14 @@ import {
     Long,
     T,
 } from "./tetris.js";
-const table = document.getElementById('grid');
 import { Grid } from "./grid.js";
 let lines = document.getElementById('lines')
 let scoreCounter = document.getElementById('score')
-let image = document.getElementById('next-shape')
+let single = document.getElementById('single')
+let double = document.getElementById('double')
+let triple = document.getElementById('triple')
+let tetris = document.getElementById('tetris')
+let gameOver = document.getElementById('game-over')
 
 class Tetris {
     grid
@@ -22,7 +25,8 @@ class Tetris {
     lines = 0;
     level = 1;
     intervalId;
-    hardDropPoints;
+    hasEnded = false;
+    isPaused = false;
     constructor() {
         this.grid = new Grid()
         this.createShape()
@@ -33,7 +37,6 @@ class Tetris {
     createShape() {
         //creates a random number between 0 and 6
         let randomNum = Math.floor(Math.random() * 7);
-        // let randomNum = 1 
         //creates a shape depending on the number
         switch (randomNum) {
             case 0:
@@ -58,13 +61,14 @@ class Tetris {
                 this.nextShape = new T()
                 break
         }
-        image.src = this.nextShape.image
+        this.grid.showNextShape(this.nextShape.points, this.nextShape.color)
     }
     addNextShapeToGrid() {
         if(!this.grid.arePointsValid(this.nextShape.points)){
             // add alert to say player has lost
             console.log('you have lost')
             clearInterval(this.intervalId)
+            this.hasEnded = true
             return;
         }
         this.grid.setPoints(this.nextShape.points, this.nextShape.color)
@@ -74,6 +78,9 @@ class Tetris {
     
 
     moveHorizontally(d) {
+        if (this.isPaused || this.hasEnded) {
+            return;
+        }
         let points = this.shape.moveShapeHorizontally(d);
         if (this.grid.arePointsValid(points)) {
             this.grid.setPoints(points, this.shape.color)
@@ -82,6 +89,9 @@ class Tetris {
     }
 
     moveVertically() {
+        if (this.isPaused || this.hasEnded) {
+            return; 
+        }
         let points = this.shape.moveShapeVertically()
         //collision occured
         if (!this.grid.arePointsValid(points)) {
@@ -105,6 +115,9 @@ class Tetris {
     }
 
     rotate() {
+        if (this.hasEnded || this.isPaused) {
+            return;
+        }
         let points = this.shape.rotate()
         if (this.grid.arePointsValid(points)) {
             this.grid.setPoints(points, this.shape.color)
@@ -112,6 +125,9 @@ class Tetris {
         }
     }
     hardDrop() {
+        if (this.isPaused || this.hasEnded) {
+            return;
+        }
         //drops the shape to its hardDrop position
         let points = this.grid.setPointToHardDrop(this.shape.color)
         let distance = points[0][1] - this.shape.points[0][1]
@@ -132,15 +148,19 @@ class Tetris {
         switch (num) {
             case 1:
                 this.score += (40 * this.level)
+                this.displayMessage('single')
                 break
             case 2:
                 this.score += (100 * this.level)
+                this.displayMessage('double')
                 break
             case 3:
                 this.score += (300 * this.level)
+                this.displayMessage('triple')
                 break
             case 4:
                 this.score += (1200 * this.level)
+                this.displayMessage('tetris')
                 break
         }
     }
@@ -174,9 +194,39 @@ class Tetris {
                 timeout = 217
                 break
             default:
-                timeout= 133
+                timeout = 133
         }
-        this.intervalId = setInterval(()=>this.moveVertically(), timeout)
+        this.intervalId = setInterval(() => this.moveVertically(), timeout)
+    }
+    displayMessage(string) {
+        let elem;
+        switch (string) {
+            case 'single':
+                elem = single
+                break
+            case 'double':
+                elem = double
+                break
+            case 'triple':
+                elem = triple
+                break
+            case 'tetris':
+                elem = tetris
+                break
+            }
+        elem.style.display ='block'
+        setTimeout(() => {
+            elem.style.display = 'none'
+        }, 400)
+    }
+    pause() {
+        if (this.isPaused) {
+            this.isPaused = false
+            this.autoDrop()
+        } else {
+            this.isPaused = true
+            clearInterval(this.intervalId)
+        }
     }
 
 }

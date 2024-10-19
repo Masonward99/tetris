@@ -1,8 +1,9 @@
 td {
     width: 40px;
     height: 40px;
-    background-color: grey;
+    background-color: white;
     color: grey;
+    border: 1px solid black;
 }
 
 .page-container {
@@ -17,4 +18,34 @@ td {
 img {
     height: 100px;
     width: 100px;
+}
+#single, #double, #triple, #tetris, #game-over{
+    display: none;
+}
+.grid-container {
+    width: max-content;
+    height: max-content;
+    position: relative;
+}
+#single,
+#double,
+#triple,
+#tetris,
+#game-over {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+}
+#single,
+#double,
+#triple,
+#tetris,
+#game-over p {
+    font-size: 45px;
 }

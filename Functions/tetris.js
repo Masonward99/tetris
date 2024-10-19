@@ -1,7 +1,6 @@
 class Shape {
     color;
     points;
-    image
     moveShapeHorizontally(d) {
         // calculate new points if moved horizontally
         return this.points.map((e) => [e[0] + d, e[1]])
@@ -19,7 +18,6 @@ class Square extends Shape {
         super()
         this.points = [[4, 0], [5, 0], [4, 1], [5, 1]]
         this.color = 'yellow'
-        this.image = '../square.svg'
     }
     rotate() {
         return this.points
@@ -32,7 +30,6 @@ class Long extends Shape {
         super()
         this.points= [[3, 0], [4, 0], [5, 0], [6, 0]]
         this.color = 'blue'
-        this.image = '../long.svg'
     }
     rotate() {
         this.count += 1
@@ -74,7 +71,6 @@ class Z extends Shape {
                 [6, 0],
             ],
             this.color = 'green'
-        this.image = '../Z.svg'
     }
     rotate() {
         let points = this.points
@@ -127,7 +123,6 @@ class BackwardsZ extends Shape{
             [6, 1],
         ];
         this.color = 'red'
-        this.image = '../backwardsZ.svg'
     }
     rotate() {
         let points = this.points
@@ -179,7 +174,6 @@ class L extends Shape {
             [6, 1],
         ];
         this.color = 'brown'
-        this.image = '../L.svg'
     }
     rotate() {
         let points = this.points
@@ -230,7 +224,6 @@ class BackwardsL extends Shape {
             [6, 0],
         ];
         this.color = 'orange'
-        this.image = '../backwardsL.svg'
     }
     rotate() {
         let points = this.points
@@ -281,7 +274,6 @@ class T extends Shape {
             [5, 1],
         ];
         this.color = 'purple'
-        this.image = '../T.svg'
     }
     rotate() {
         let points = this.points

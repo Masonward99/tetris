@@ -19,11 +19,19 @@ window.addEventListener('keydown', function (event) {
             game.rotate()
             break
         case " ":
-            game.hardDrop()
+            if (game.hasEnded ) {
+                game = new Tetris()
+            } else {
+                game.hardDrop()
+            }
+            break
+        case 'p':
+            game.pause()
             break
         default:
             return;
     }
 })
+
 
 let game = new Tetris()
