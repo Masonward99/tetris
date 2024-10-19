@@ -11,19 +11,25 @@
     <div class="page-container">
         <div class="grid-container">
             <table id="grid"></table>
-            <p id="single">Single</p>
-            <p id="double">Double</p>
-            <p id="triple">Triple</p>
-            <p id="tetris">Tetris</p>
-            <p id="game-over">Game over</p>
+            <p id="single" class="hidden">Single</p>
+            <p id="double" class="hidden">Double</p>
+            <p id="triple" class="hidden">Triple</p>
+            <p id="tetris" class="hidden">Tetris</p>
+            <div id="game-over" class="hidden">
+                <h3>Game over</h3>
+                <p>Press space to start a new game</p>
+            </div>
+            <p id="pause" class="hidden">Paused</p>
         </div>
         <div class="score-section">
-            <p>lines</p>
-            <p id="lines"></p>
-            <p>Score</p>
-            <p id="score"></p>
-            <p>nextShape</p>
+            <h2>nextShape</h2>
             <table id="next-shape"></table>
+            <h2>lines</h2>
+            <p id="lines"></p>
+            <h2>Score</h2>
+            <p id="score"></p>
+            <h2>Level</h2>
+            <p id="level"></p>
         </div>
     </div>
 </body>

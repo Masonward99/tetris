@@ -13,9 +13,11 @@ window.addEventListener('keydown', function (event) {
             game.moveHorizontally(1)
             break
         case 'ArrowDown':
+            event.preventDefault()
             game.moveVertically()
             break
         case 'ArrowUp':
+            event.preventDefault()
             game.rotate()
             break
         case " ":

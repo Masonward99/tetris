@@ -1,37 +1,50 @@
+body {
+    height: 100vh;
+    width: 100vw - 2px;
+    margin: 0;
+}
+h2 {
+    font-size: 1.5rem;
+    margin:0.5rem;
+}
+p {
+    margin: 0.5rem;
+}
+h1{
+    text-align: center;
+    font-size: 50px;
+}
 td {
-    width: 40px;
-    height: 40px;
+    width: 2rem;
+    height: 2rem;
     background-color: white;
     color: grey;
     border: 1px solid black;
 }
+#next-shape td{
+    border: 0;
+}
 
 .page-container {
     display: flex;
+    position: relative;
+    width: max-content;
+    margin: auto;
+    height: 100%;
 }
 .score-section {
     width: 25%;
 }
 #grid {
-    max-width: 1000px;
-}
-img {
-    height: 100px;
-    width: 100px;
-}
-#single, #double, #triple, #tetris, #game-over{
-    display: none;
+    
+    display: flex;
 }
 .grid-container {
     width: max-content;
     height: max-content;
     position: relative;
 }
-#single,
-#double,
-#triple,
-#tetris,
-#game-over {
+.hidden {
     display: none;
     position: absolute;
     top: 50%;
@@ -41,11 +54,20 @@ img {
     -moz-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
     -o-transform: translate(-50%, -50%);
-}
-#single,
-#double,
-#triple,
-#tetris,
-#game-over p {
     font-size: 45px;
+}
+#game-over p{
+    font-size: 30px;
+    text-wrap: wrap;
+    color: white;
+}
+#game-over{
+    width: calc(100% - 20px);
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    text-align: center;
+}
+#game-over h3 {
+    margin: 1rem;
+    color: white;
 }

@@ -15,6 +15,8 @@ let double = document.getElementById('double')
 let triple = document.getElementById('triple')
 let tetris = document.getElementById('tetris')
 let gameOver = document.getElementById('game-over')
+let level = document.getElementById('level')
+let pause = document.getElementById('pause')
 
 class Tetris {
     grid
@@ -28,6 +30,7 @@ class Tetris {
     hasEnded = false;
     isPaused = false;
     constructor() {
+        gameOver.style.display = 'none'
         this.grid = new Grid()
         this.createShape()
         this.addNextShapeToGrid()
@@ -66,7 +69,7 @@ class Tetris {
     addNextShapeToGrid() {
         if(!this.grid.arePointsValid(this.nextShape.points)){
             // add alert to say player has lost
-            console.log('you have lost')
+            gameOver.style.display = 'block'
             clearInterval(this.intervalId)
             this.hasEnded = true
             return;
@@ -168,6 +171,7 @@ class Tetris {
         //drops the block automatically at a set interval.
         // Interval changes each level
         let timeout;
+        level.innerHTML = this.level
         switch (this.level) {
             case 1:
                 timeout = 800
@@ -221,9 +225,11 @@ class Tetris {
     }
     pause() {
         if (this.isPaused) {
+            pause.style.display = 'none'
             this.isPaused = false
             this.autoDrop()
         } else {
+            pause.style.display = "block";
             this.isPaused = true
             clearInterval(this.intervalId)
         }
