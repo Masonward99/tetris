@@ -22,8 +22,11 @@ window.addEventListener('keydown', function (event) {
             break
         case " ":
             if (game.hasEnded ) {
-                game = new Tetris()
-            } else {
+                game = new Tetris(false)
+            } else if (game.isFirst) {
+                game.startGame()
+            }
+            else {
                 game.hardDrop()
             }
             break
@@ -36,4 +39,4 @@ window.addEventListener('keydown', function (event) {
 })
 
 
-let game = new Tetris()
+let game = new Tetris(true)

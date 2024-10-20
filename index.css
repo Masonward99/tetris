@@ -1,8 +1,4 @@
-body {
-    height: 100vh;
-    width: 100vw - 2px;
-    margin: 0;
-}
+
 h2 {
     font-size: 1.5rem;
     margin:0.5rem;
@@ -12,38 +8,38 @@ p {
 }
 h1{
     text-align: center;
-    font-size: 50px;
+    font-size: 70px;
+    margin: 0.5rem;
+}
+
+.page-container {
+    display: flex;
+    margin: auto;
+    height: 100%;
+    width: max-content;
 }
 td {
-    width: 2rem;
-    height: 2rem;
     background-color: white;
-    color: grey;
     border: 1px solid black;
+}
+.grid-container {
+    height: max-content;
+    width: max-content;
+    position: relative;
 }
 #next-shape td{
     border: 0;
 }
 
-.page-container {
-    display: flex;
-    position: relative;
-    width: max-content;
-    margin: auto;
-    height: 100%;
-}
 .score-section {
     width: 25%;
 }
-#grid {
-    
-    display: flex;
+
+td {
+    height: 2rem;
+    width: 2rem;
 }
-.grid-container {
-    width: max-content;
-    height: max-content;
-    position: relative;
-}
+
 .hidden {
     display: none;
     position: absolute;
@@ -55,6 +51,8 @@ td {
     -ms-transform: translate(-50%, -50%);
     -o-transform: translate(-50%, -50%);
     font-size: 45px;
+    max-width: 20rem;
+    text-wrap: wrap;
 }
 #game-over p{
     font-size: 30px;
@@ -70,4 +68,7 @@ td {
 #game-over h3 {
     margin: 1rem;
     color: white;
+}
+.controls p{
+    font-size: 1.25rem;
 }

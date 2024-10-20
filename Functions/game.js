@@ -17,6 +17,7 @@ let tetris = document.getElementById('tetris')
 let gameOver = document.getElementById('game-over')
 let level = document.getElementById('level')
 let pause = document.getElementById('pause')
+let startGame = document.getElementById('start-game')
 
 class Tetris {
     grid
@@ -29,13 +30,23 @@ class Tetris {
     intervalId;
     hasEnded = false;
     isPaused = false;
-    constructor() {
+    isFirst;
+    constructor(isFirst) {
         gameOver.style.display = 'none'
         this.grid = new Grid()
         this.createShape()
         this.addNextShapeToGrid()
         this.autoDrop()
         lines.innerHTML = this.lines
+        this.isFirst = isFirst
+        if (this.isFirst) {
+            startGame.style.display = 'block'
+        }
+    }
+    startGame() {
+        this.isFirst = false;
+        startGame.style.display = 'none'
+
     }
     createShape() {
         //creates a random number between 0 and 6
@@ -81,7 +92,7 @@ class Tetris {
     
 
     moveHorizontally(d) {
-        if (this.isPaused || this.hasEnded) {
+        if (this.isPaused || this.hasEnded || this.isFirst) {
             return;
         }
         let points = this.shape.moveShapeHorizontally(d);
@@ -92,7 +103,7 @@ class Tetris {
     }
 
     moveVertically() {
-        if (this.isPaused || this.hasEnded) {
+        if (this.isPaused || this.hasEnded || this.isFirst) {
             return; 
         }
         let points = this.shape.moveShapeVertically()
@@ -118,7 +129,7 @@ class Tetris {
     }
 
     rotate() {
-        if (this.hasEnded || this.isPaused) {
+        if (this.hasEnded || this.isPaused || this.isFirst) {
             return;
         }
         let points = this.shape.rotate()
@@ -128,7 +139,7 @@ class Tetris {
         }
     }
     hardDrop() {
-        if (this.isPaused || this.hasEnded) {
+        if (this.isPaused || this.hasEnded || this.isFirst) {
             return;
         }
         //drops the shape to its hardDrop position

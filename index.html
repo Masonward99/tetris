@@ -9,12 +9,22 @@
 <body>
     <h1>Tetris</h1>
     <div class="page-container">
+        <div class="controls">
+            <h2>Controls</h2>
+            <p>Left arrow -> move left</p>
+            <p>Right arrow -> move right</p>
+            <p>Down arrow -> soft drop</p>
+            <p>Up arrow -> rotate</p>
+            <p>Space -> hard drop</p>
+            <p>P -> pause</p>
+        </div>
         <div class="grid-container">
             <table id="grid"></table>
             <p id="single" class="hidden">Single</p>
             <p id="double" class="hidden">Double</p>
             <p id="triple" class="hidden">Triple</p>
             <p id="tetris" class="hidden">Tetris</p>
+            <p id="start-game" class="hidden">Press space to start the game</p>
             <div id="game-over" class="hidden">
                 <h3>Game over</h3>
                 <p>Press space to start a new game</p>
@@ -22,7 +32,7 @@
             <p id="pause" class="hidden">Paused</p>
         </div>
         <div class="score-section">
-            <h2>nextShape</h2>
+            <h2>Next Shape</h2>
             <table id="next-shape"></table>
             <h2>lines</h2>
             <p id="lines"></p>
